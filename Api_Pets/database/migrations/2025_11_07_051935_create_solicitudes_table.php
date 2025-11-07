@@ -10,13 +10,13 @@ return new class extends Migration
     {
         Schema::create('solicitudes', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('usuario_id');
+            $table->unsignedBigInteger('user_id');
             $table->unsignedBigInteger('mascota_id');
             $table->string('estado')->default('pendiente'); // pendiente, aprobada, rechazada
             $table->timestamps();
 
             // Claves foráneas
-            $table->foreign('usuario_id')->references('id')->on('usuarios')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
             $table->foreign('mascota_id')->references('id')->on('mascotas')->onDelete('cascade');
         });
     }
