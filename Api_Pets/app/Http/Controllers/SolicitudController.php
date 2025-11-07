@@ -10,28 +10,30 @@ class SolicitudController extends Controller
 {
     public function store(Request $r, $id)
     {
-        $r->validate(['message' => 'nullable|string']); // opcional: guardar message más tarde
         $mascota = Mascota::findOrFail($id);
 
-        // Crea la solicitud usando el usuario autenticado
+        // Crea la solicitud con el usuario autenticado
         $sol = Solicitud::create([
-            'usuario_id' => $r->user()->id,
+            'user_id' => $r->user()->id,
             'mascota_id' => $mascota->id,
             'estado' => 'pendiente'
         ]);
 
-        return response()->json($sol, 201);
+        return response()->json([
+            'message' => 'Solicitud enviada correctamente',
+            'solicitud' => $sol
+        ], 201);
     }
 
     public function index(Request $r)
     {
         $user = $r->user();
 
-        // Si es admin (rol), devuelve todas; si no, solo las del usuario
+        // Si es admin, devuelve todas; si no, solo las del usuario
         if ($user->rol === 'admin') {
-            $list = Solicitud::with(['mascota','usuario'])->get();
+            $list = Solicitud::with(['mascota', 'user'])->get(); 
         } else {
-            $list = Solicitud::with('mascota')->where('usuario_id', $user->id)->get();
+            $list = Solicitud::with('mascota')->where('user_id', $user->id)->get(); 
         }
 
         return response()->json($list, 200);
