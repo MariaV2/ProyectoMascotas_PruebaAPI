@@ -16,7 +16,7 @@ return new class extends Migration
             $table->timestamps();
 
             // Claves foráneas
-            $table->foreign('user_id')->references('id')->on('user')->onDelete('cascade');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->foreign('mascota_id')->references('id')->on('mascotas')->onDelete('cascade');
         });
     }
