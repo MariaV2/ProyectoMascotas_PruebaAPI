@@ -1,0 +1,206 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de Adopción de Mascotas",
+        "description": "API desarrollada para gestionar la adopción de mascotas. Incluye registro, autenticación, visualización de mascotas disponibles y envío de solicitudes de adopción.",
+        "contact": {
+            "name": "Equipo Stardust",
+            "email": "soporte@apipets.com"
+        },
+        "license": {
+            "name": "ApiPets",
+            "url": "https://opensource.org/licenses/ApiPets"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:8000",
+            "description": "Servidor local de desarrollo"
+        }
+    ],
+    "paths": {
+        "/api/register": {
+            "post": {
+                "summary": "Registrar un nuevo usuario",
+                "operationId": "8a56853624e025573120a09a4c75d468",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "name",
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "name": {
+                                        "type": "string",
+                                        "example": "Juan Pérez"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "example": "juan@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Usuario registrado correctamente"
+                    }
+                }
+            }
+        },
+        "/api/login": {
+            "post": {
+                "summary": "Iniciar sesión",
+                "operationId": "e2b2b9c4692e5f8028b47366bc771f5e",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "required": [
+                                    "email",
+                                    "password"
+                                ],
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "example": "juan@example.com"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "example": "password123"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Inicio de sesión exitoso"
+                    }
+                }
+            }
+        },
+        "/api/logout": {
+            "post": {
+                "summary": "Cerrar sesión (requiere token)",
+                "operationId": "bf78efc9eedceb0a268e3403692b60bc",
+                "responses": {
+                    "200": {
+                        "description": "Sesión cerrada correctamente"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/mascotas": {
+            "get": {
+                "summary": "Obtener todas las mascotas disponibles",
+                "operationId": "75f27db415edd03053ed8414c2c2f944",
+                "responses": {
+                    "200": {
+                        "description": "Listado de mascotas"
+                    }
+                }
+            }
+        },
+        "/api/mascotas/{id}": {
+            "get": {
+                "summary": "Obtener detalles de una mascota",
+                "operationId": "0865737a3b525b6bf373b7f3c7c17ff8",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Detalles de la mascota"
+                    }
+                }
+            }
+        },
+        "/api/mascotas/{id}/solicitudes": {
+            "post": {
+                "summary": "Crear una solicitud de adopciÃ³n",
+                "operationId": "8f8b03df2cf4d52cea2009cdd9c17a1e",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "description": "ID de la mascota",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "201": {
+                        "description": "Solicitud creada correctamente"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/solicitudes": {
+            "get": {
+                "summary": "Listar solicitudes del usuario (o todas si es admin)",
+                "operationId": "12d3ebf2520dcf0bfcf9ac62d20197ae",
+                "responses": {
+                    "200": {
+                        "description": "Lista de solicitudes"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        }
+    },
+    "components": {
+        "securitySchemes": {
+            "sanctum": {
+                "type": "apiKey",
+                "description": "Ingrese el token con el formato: Bearer {token}",
+                "name": "Authorization",
+                "in": "header"
+            }
+        }
+    },
+    "tags": [],
+    "security": [
+        {
+            "sanctum": []
+        }
+    ]
+}

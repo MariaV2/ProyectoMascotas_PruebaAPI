@@ -1,5 +1,9 @@
 <?php
 
+/**
+ * @OA\Info(title="API de Adopción de Mascotas", version="1.0")*/
+
+
 namespace App\Http\Controllers;
 
 use App\Models\User;
@@ -9,6 +13,44 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
+    /** 
+     * @OA\Post(
+     *     path="/api/register",
+     *     summary="Registrar un nuevo usuario",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"name","email","password"},
+     *             @OA\Property(property="name", type="string", example="Juan Pérez"),
+     *             @OA\Property(property="email", type="string", example="juan@example.com"),
+     *             @OA\Property(property="password", type="string", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(response=201, description="Usuario registrado correctamente"),
+     * )
+     * @OA\Post(
+     *     path="/api/login",
+     *     summary="Iniciar sesión",
+     *     @OA\RequestBody(
+     *         required=true,
+     *         @OA\JsonContent(
+     *             required={"email","password"},
+     *             @OA\Property(property="email", type="string", example="juan@example.com"),
+     *             @OA\Property(property="password", type="string", example="password123")
+     *         )
+     *     ),
+     *     @OA\Response(response=200, description="Inicio de sesión exitoso"),
+     * )
+     * 
+     * @OA\Post(
+     *     path="/api/logout",
+     *     summary="Cerrar sesión (requiere token)",
+     *     security={{"sanctum":{}}},
+     *     @OA\Response(response=200, description="Sesión cerrada correctamente")
+     * )
+     */
+
+
     public function register(Request $request)
     {
         $validated = $request->validate([

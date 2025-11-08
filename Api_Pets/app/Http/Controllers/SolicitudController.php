@@ -6,6 +6,29 @@ use App\Models\Mascota;
 use App\Models\Solicitud;
 use Illuminate\Http\Request;
 
+/**
+ * @OA\Post(
+ *     path="/api/mascotas/{id}/solicitudes",
+ *     summary="Crear una solicitud de adopciÃ³n",
+ *     security={{"sanctum":{}}},
+ *     @OA\Parameter(
+ *         name="id",
+ *         in="path",
+ *         required=true,
+ *         description="ID de la mascota",
+ *         @OA\Schema(type="integer")
+ *     ),
+ *     @OA\Response(response=201, description="Solicitud creada correctamente")
+ * )
+ *
+ * @OA\Get(
+ *     path="/api/solicitudes",
+ *     summary="Listar solicitudes del usuario (o todas si es admin)",
+ *     security={{"sanctum":{}}},
+ *     @OA\Response(response=200, description="Lista de solicitudes")
+ * )
+ */
+
 class SolicitudController extends Controller
 {
     public function store(Request $r, $id)
