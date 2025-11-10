@@ -36,7 +36,7 @@ use Illuminate\Http\Request;
      *     @OA\Response(response=404, description="Mascota no encontrada")
      * )
      *
-      * @OA\Get(
+     * @OA\Get(
      *     path="/api/solicitudes",
      *     summary="Listar solicitudes del usuario (o todas si es admin)",
      *     description="Devuelve las solicitudes del usuario autenticado o todas si el usuario es administrador.",
