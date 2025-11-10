@@ -24,12 +24,11 @@ namespace App\Http\Controllers;
  *
  * @OA\SecurityScheme(
  *     securityScheme="sanctum",
- *     type="apiKey",
- *     in="header",
- *     name="Authorization",
+ *     type="http",
+ *     scheme="bearer",
+ *     bearerFormat="JWT",
  *     description="Ingrese el token en el formato: Bearer {token}"
  * )
- * 
  * 
  * @OA\Tag(
  *      name="Mascotas",
