@@ -23,7 +23,7 @@ namespace App\Http\Controllers;
  * )
  *
  * @OA\SecurityScheme(
- *     securityScheme="sanctum",
+ *     securityScheme="BearerAuth",
  *     type="http",
  *     scheme="bearer",
  *     bearerFormat="JWT",
