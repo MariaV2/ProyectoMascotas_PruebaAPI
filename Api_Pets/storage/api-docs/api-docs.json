@@ -145,22 +145,67 @@
         },
         "/api/mascotas/{id}/solicitudes": {
             "post": {
-                "summary": "Crear una solicitud de adopciÃ³n",
+                "tags": [
+                    "Solicitudes"
+                ],
+                "summary": "Crear una solicitud de adopción",
+                "description": "Crea una nueva solicitud de adopción para la mascota especificada.",
                 "operationId": "8f8b03df2cf4d52cea2009cdd9c17a1e",
                 "parameters": [
                     {
                         "name": "id",
                         "in": "path",
-                        "description": "ID de la mascota",
+                        "description": "ID de la mascota a adoptar",
                         "required": true,
                         "schema": {
-                            "type": "integer"
+                            "type": "integer",
+                            "example": 1
                         }
                     }
                 ],
                 "responses": {
                     "201": {
-                        "description": "Solicitud creada correctamente"
+                        "description": "Solicitud creada correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "message": {
+                                            "type": "string",
+                                            "example": "Solicitud enviada correctamente"
+                                        },
+                                        "solicitud": {
+                                            "properties": {
+                                                "id": {
+                                                    "type": "integer",
+                                                    "example": 10
+                                                },
+                                                "user_id": {
+                                                    "type": "integer",
+                                                    "example": 2
+                                                },
+                                                "mascota_id": {
+                                                    "type": "integer",
+                                                    "example": 1
+                                                },
+                                                "estado": {
+                                                    "type": "string",
+                                                    "example": "pendiente"
+                                                }
+                                            },
+                                            "type": "object"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    },
+                    "404": {
+                        "description": "Mascota no encontrada"
+                    },
+                    "401": {
+                        "description": "No autorizado — token inválido o ausente"
                     }
                 },
                 "security": [
@@ -172,11 +217,46 @@
         },
         "/api/solicitudes": {
             "get": {
+                "tags": [
+                    "Solicitudes"
+                ],
                 "summary": "Listar solicitudes del usuario (o todas si es admin)",
+                "description": "Devuelve las solicitudes del usuario autenticado o todas si el usuario es administrador.",
                 "operationId": "12d3ebf2520dcf0bfcf9ac62d20197ae",
                 "responses": {
                     "200": {
-                        "description": "Lista de solicitudes"
+                        "description": "Lista de solicitudes obtenida correctamente",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "properties": {
+                                            "id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "user_id": {
+                                                "type": "integer",
+                                                "example": 2
+                                            },
+                                            "mascota_id": {
+                                                "type": "integer",
+                                                "example": 1
+                                            },
+                                            "estado": {
+                                                "type": "string",
+                                                "example": "pendiente"
+                                            }
+                                        },
+                                        "type": "object"
+                                    }
+                                }
+                            }
+                        }
+                    },
+                    "401": {
+                        "description": "No autorizado — token inválido o ausente"
                     }
                 },
                 "security": [
@@ -189,6 +269,12 @@
     },
     "components": {
         "securitySchemes": {
+            "BearerAuth": {
+                "type": "http",
+                "description": "Ingrese el token en el formato: Bearer {token}",
+                "bearerFormat": "JWT",
+                "scheme": "bearer"
+            },
             "sanctum": {
                 "type": "apiKey",
                 "description": "Ingrese el token con el formato: Bearer {token}",
@@ -197,7 +283,12 @@
             }
         }
     },
-    "tags": [],
+    "tags": [
+        {
+            "name": "Solicitudes",
+            "description": "Solicitudes"
+        }
+    ],
     "security": [
         {
             "sanctum": []
